@@ -1,22 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/index.css" />
-    <title>Real-Time Bird Detection</title>
-  </head>
-  <body>
-    <div class="content">
-      <h1>Real-Time Bird Detection</h1>
-        <img class="videoframe" src="{{ url_for('video_feed') }}" alt="Video Feed">
-        <button id="playSoundButton">Play Sound</button>
-        <script>
-            document.getElementById("playSoundButton").addEventListener("click", function() {
-                var audio = new Audio("{{ url_for('play_sound') }}");
-                audio.play();
-            });
-        </script>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../static/css/index.css" />
+
+  <title>Real-Time Bird Detection</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="result">
+      <h1 class="title">Real-Time Bird Detection</h1>
+      <div class="videoframe">
+        <img id="videoframe" src="{{ url_for('video_feed') }}" alt="Video Feed" />
+      </div>
+      <button id="playSoundButton">Play Sound</button>
+      <script>
+        document
+          .getElementById("playSoundButton")
+          .addEventListener("click", function () {
+            var audio = new Audio("{{ url_for('play_sound') }}");
+            audio.play();
+          });
+      </script>
     </div>
-  </body>
+    <div class="config">
+      <div class="result-box">
+        <h3>Total No. of Birds</h3>
+        <div class="box main">01</div>
+      </div>
+      <div class="flying-standing">
+        <div class="result-box">
+          <h3>Flying</h3>
+          <div class="box">01</div>
+        </div>
+        <div class="result-box">
+          <h3>Standing</h3>
+          <div class="box">01</div>
+        </div>
+      </div>
+      <div class="volume">
+        <h3>Audio Volume</h3>
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+      </div>
+      <div class="system-status"></div>
+    </div>
+  </div>
+  <footer>
+    <h3>System status</h3>
+    <input type="checkbox" checked>
+    <span class="slider round"></span>
+  </footer>
+</body>
+
 </html>

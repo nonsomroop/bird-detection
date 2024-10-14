@@ -2,3 +2,4 @@ venv/
 yolov8n.pt
 *.pt
 runs/
+.env

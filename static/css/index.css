@@ -74,7 +74,6 @@ h1, h3 {
     overflow: hidden;
 }
 #videoframe {
-    height: 100%;
     width: 100%;
 }
 #playSoundButton {
@@ -114,11 +113,17 @@ h1, h3 {
     gap: 20px;
 }
 footer {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
     background-color: #fdb92e;
     height: 15vh;
 }
 .slidecontainer {
-    width: 100%;
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    width: 70%;
 }
 .slider {
     margin-top: 10px;
@@ -148,5 +153,60 @@ footer {
     background: #04AA6D;
     cursor: pointer;
 }
+.component-title {
+  width: 100%;
+  position: absolute;
+  z-index: 999;
+  top: 30px;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #888;
+  text-align: center;
+}
+.togglebox {
+  width: 51px;
+  height: 31px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
 
+.switch {
+  width: 100%;
+  height: 100%;
+  background-color: #e9e9eb;
+  border-radius: 16px;
+  transition: background-color 0.2s ease-out;
+  cursor: pointer;
+}
+
+.toggle-handle {
+  width: 27px;
+  height: 27px;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  transition: all 0.2s ease-out;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06);
+}
+
+.checkbox:checked + .switch {
+  background-color: #34C759;
+}
+
+.checkbox:checked + .switch .toggle-handle {
+  left: calc(100% - 27px - 2px);
+}

@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../static/css/index.css" />
-
   <title>Real-Time Bird Detection</title>
 </head>
-
 <body>
   <div class="container">
     <div class="result">
@@ -17,14 +14,6 @@
         <img id="videoframe" src="{{ url_for('video_feed') }}" alt="Video Feed" />
       </div>
       <button id="playSoundButton">Play Sound</button>
-      <script>
-        document
-          .getElementById("playSoundButton")
-          .addEventListener("click", function () {
-            var audio = new Audio("{{ url_for('play_sound') }}");
-            audio.play();
-          });
-      </script>
     </div>
     <div class="config">
       <div class="result-box">
@@ -49,10 +38,16 @@
     </div>
   </div>
   <footer>
-    <h3>System status</h3>
-    <input type="checkbox" checked>
-    <span class="slider round"></span>
+    <div class="slidecontainer">
+      <h3>System status</h3>
+      <div class="togglebox">
+        <input type="checkbox" class="checkbox" id="toggle-switch">
+        <label class="switch" for="toggle-switch">
+          <span class="toggle-handle"></span>
+        </label>
+      </div>
+    </div>
   </footer>
+  <script src="../static/js/index.js"></script>
 </body>
-
 </html>

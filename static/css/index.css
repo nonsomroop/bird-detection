@@ -61,7 +61,7 @@ h1, h3 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 20%;
+    width: 30%;
 }
 .volume {
     text-align: center;
@@ -71,10 +71,16 @@ h1, h3 {
     width: 100%;
     background-color: #000000;
     border-radius: 20px;
+    /* display: flex; */
     overflow: hidden;
 }
 #videoframe {
     width: 100%;
+    height: 100%;
+    object-fit: cover
+    /* justify-content: center;
+    align-items: center; */
+    /* height: 100%; */
 }
 #playSoundButton {
     position: fixed;
@@ -115,15 +121,23 @@ h1, h3 {
 footer {
     padding: 20px;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
     background-color: #fdb92e;
     height: 15vh;
+    p{
+        margin-left: 20px;
+        font-size: large;
+        font-weight: 700;
+        color: #293A49;
+    }
 }
 .slidecontainer {
     display: flex;
     justify-content: end;
+    align-items: center;
     gap: 10px;
-    width: 70%;
+    margin-right: 20px;
 }
 .slider {
     margin-top: 10px;

@@ -52,9 +52,25 @@ window.onload = function () {
   const playSoundButton = document.getElementById("playSoundButton");
   if (playSoundButton) {
     playSoundButton.addEventListener("click", function () {
+      updateCounts()
       const audio = new Audio("{{ url_for('play_sound') }}");
       audio.volume = document.getElementById("myRange").value / 100;
       audio.play();
     });
   }
 };
+
+function updateCounts() {
+  fetch('/get_counts')
+      .then(response => response.json())
+      .then(data => {
+          document.getElementById('totalBirds').innerText = data.total;
+          document.getElementById('flyingBirds').innerText = data.flying;
+          document.getElementById('standingBirds').innerText = data.standing;
+      })
+      .catch(err => console.error('Error fetching counts:', err));
+}
+
+// Poll the server every second to update counts
+setInterval(updateCounts, 500);
+

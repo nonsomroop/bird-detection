@@ -3,25 +3,51 @@ from ultralytics import YOLO
 from flask import Flask, jsonify, request, render_template, Response, send_from_directory
 from dotenv import load_dotenv
 import os
+import logging  # Import logging
+
+# Set logging level for the ultralytics module to suppress messages
+logging.getLogger("ultralytics").setLevel(logging.WARNING)
 
 load_dotenv()
 
 app = Flask(__name__)
 
 model_path = os.getenv('MODEL_PATH', './yolov8n.pt')
-
 model = YOLO(model_path)
 
 state = {
-    "system_status": False,  
+    "system_status": False,
     "volume": 50,
 }
 
-def process_frame(model, frame):
-    results = model(frame)
-    return results[0].plot()
+conf_threshold_value = 0.7  # Set confidence threshold to 70%
+bird_count = 0
+flying_count = 0
+standing_count = 0
 
-def generate_frames():
+def process_frame(model, frame, conf=0.7):
+    # Pass the confidence threshold of 0.7 to filter out predictions below 70%
+    results = model(frame, conf=conf)
+
+    global bird_count, flying_count, standing_count  # Declare as global to modify them
+    bird_count = 0
+    flying_count = 0
+    standing_count = 0
+
+    for result in results:
+        for obj in result.boxes:
+            if obj.conf >= conf:  # Check confidence
+                bird_count += 1
+                if obj.cls == 1:  # Assuming 0 is the class ID for birds
+                    standing_count += 1
+                else:
+                    flying_count += 1
+    
+    annotated_frame = results[0].plot()
+
+    return annotated_frame
+
+def generate_frames(conf_threshold=0.7):
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print("Error: Could not open video device.")
@@ -34,7 +60,8 @@ def generate_frames():
                 print("Error: Could not read frame.")
                 break
 
-            annotated_frame = process_frame(model, frame)
+            # Pass the confidence threshold of 0.7 to process_frame
+            annotated_frame = process_frame(model, frame, conf=conf_threshold)
             ret, buffer = cv2.imencode('.jpg', annotated_frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
@@ -49,7 +76,7 @@ def index():
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(generate_frames(conf_threshold_value), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/play_sound', methods=['GET'])
 def play_sound():
@@ -70,6 +97,21 @@ def update_state():
     state['system_status'] = data.get('system_status', state['system_status'])
     state['volume'] = data.get('volume', state['volume'])
     return jsonify(state)
+
+@app.route('/set_confidence', methods=['POST'])
+def set_confidence():
+    global conf_threshold_value
+    data = request.json
+    conf_threshold_value = data.get('conf_threshold', 0.7)
+    return jsonify({"message": "Confidence threshold updated", "confidence_threshold": conf_threshold_value})
+
+@app.route('/get_counts', methods=['GET'])
+def get_counts():
+    return jsonify({
+        "total": bird_count,
+        "flying": flying_count,
+        "standing": standing_count
+    })
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))

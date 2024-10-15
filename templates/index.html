@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../static/css/index.css" />
   <title>Real-Time Bird Detection</title>
 </head>
+
 <body>
   <div class="container">
     <div class="result">
@@ -18,16 +20,16 @@
     <div class="config">
       <div class="result-box">
         <h3>Total No. of Birds</h3>
-        <div class="box main">01</div>
+        <div class="box main" id="totalBirds">0</div>
       </div>
       <div class="flying-standing">
         <div class="result-box">
           <h3>Flying</h3>
-          <div class="box">01</div>
+          <div class="box" id="flyingBirds">0</div>
         </div>
         <div class="result-box">
           <h3>Standing</h3>
-          <div class="box">01</div>
+          <div class="box" id="standingBirds">0</div>
         </div>
       </div>
       <div class="volume">
@@ -38,6 +40,7 @@
     </div>
   </div>
   <footer>
+    <p>Presented By Aroi Intelligence</p>
     <div class="slidecontainer">
       <h3>System status</h3>
       <div class="togglebox">
@@ -50,4 +53,5 @@
   </footer>
   <script src="../static/js/index.js"></script>
 </body>
+
 </html>

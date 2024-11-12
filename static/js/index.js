@@ -1,15 +1,17 @@
+
 function fetchState() {
   fetch("/get_state")
     .then((response) => response.json())
     .then((data) => {
       const toggleSwitch = document.getElementById("toggle-switch");
       const volumeSlider = document.getElementById("myRange");
+      const videoFeed = document.getElementById("video_feed");
+
       if (toggleSwitch) {
         toggleSwitch.checked = data.system_status;
-        if (data.system_status) {
-          const videoFeed = document.getElementById("video_feed");
-          videoFeed.src = "/video_feed";
-        }
+      }
+      if (videoFeed) {
+        videoFeed.src = data.system_status ? "/video_feed" : "";
       }
       if (volumeSlider) {
         volumeSlider.value = data.volume;
@@ -17,6 +19,7 @@ function fetchState() {
     })
     .catch((error) => console.error("Error fetching state:", error));
 }
+
 
 window.onload = function () {
   fetchState();
@@ -31,9 +34,16 @@ window.onload = function () {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ system_status: systemStatus }),
-      }).catch((error) => console.error("Error updating state:", error));
+      })
+        .then(() => {
+          // Update the video feed based on the new system status
+          const videoFeed = document.getElementById("video_feed");
+          videoFeed.src = systemStatus ? "/video_feed" : "";
+        })
+        .catch((error) => console.error("Error updating state:", error));
     });
   }
+
 
   const volumeSlider = document.getElementById("myRange");
   if (volumeSlider) {
@@ -53,7 +63,7 @@ window.onload = function () {
   if (playSoundButton) {
     playSoundButton.addEventListener("click", function () {
       updateCounts()
-      const audio = new Audio("{{ url_for('play_sound') }}");
+      const audio = new Audio("../sound/test_sound.aac");
       audio.volume = document.getElementById("myRange").value / 100;
       audio.play();
     });
@@ -62,15 +72,14 @@ window.onload = function () {
 
 function updateCounts() {
   fetch('/get_counts')
-      .then(response => response.json())
-      .then(data => {
-          document.getElementById('totalBirds').innerText = data.total;
-          document.getElementById('flyingBirds').innerText = data.flying;
-          document.getElementById('standingBirds').innerText = data.standing;
-      })
-      .catch(err => console.error('Error fetching counts:', err));
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('totalBirds').innerText = data.total;
+      document.getElementById('flyingBirds').innerText = data.flying;
+      document.getElementById('standingBirds').innerText = data.standing;
+    })
+    .catch(err => console.error('Error fetching counts:', err));
 }
 
-// Poll the server every second to update counts
 setInterval(updateCounts, 500);
 

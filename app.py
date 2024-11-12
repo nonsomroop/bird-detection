@@ -59,7 +59,6 @@ def generate_frames(conf_threshold=0.7):
             if not success:
                 print("Error: Could not read frame.")
                 break
-
             # Pass the confidence threshold of 0.7 to process_frame
             annotated_frame = process_frame(model, frame, conf=conf_threshold)
             ret, buffer = cv2.imencode('.jpg', annotated_frame)
@@ -96,6 +95,7 @@ def update_state():
     data = request.json
     state['system_status'] = data.get('system_status', state['system_status'])
     state['volume'] = data.get('volume', state['volume'])
+    print(state['system_status'])
     return jsonify(state)
 
 @app.route('/set_confidence', methods=['POST'])

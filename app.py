@@ -4,6 +4,9 @@ from flask import Flask, jsonify, request, render_template, Response, send_from_
 from dotenv import load_dotenv
 import os
 import logging  # Import logging
+import pygame
+
+pygame.mixer.init()
 
 # Set logging level for the ultralytics module to suppress messages
 logging.getLogger("ultralytics").setLevel(logging.WARNING)
@@ -16,16 +19,16 @@ model_path = os.getenv('MODEL_PATH', './yolov8n.pt')
 model = YOLO(model_path)
 
 state = {
-    "system_status": False,
+    "system_status": True,
     "volume": 50,
 }
 
-conf_threshold_value = 0.7  # Set confidence threshold to 70%
+conf_threshold_value = 0.3  # Set confidence threshold to 70%
 bird_count = 0
 flying_count = 0
 standing_count = 0
 
-def process_frame(model, frame, conf=0.7):
+def process_frame(model, frame, conf=0.3):
     # Pass the confidence threshold of 0.7 to filter out predictions below 70%
     results = model(frame, conf=conf)
 
@@ -79,8 +82,21 @@ def video_feed():
 
 @app.route('/play_sound', methods=['GET'])
 def play_sound():
-    return "Audio playing"
+    # return "Audio playing"
+    # sound_path = os.path.join('static', 'sound', 'test_sound.aac')
+    sound_path = "./static/sound/test_sound.wav"
+    # Ensure the file exists before trying to play it
+    if os.path.exists(sound_path):
+        pygame.mixer.music.load(sound_path)
+        pygame.mixer.music.play()
 
+        # Wait for the sound to finish playing
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)  # Check if sound is still playing
+
+        return jsonify({"message": "Sound played successfully"})
+    else:
+        return jsonify({"error": "Sound file not found"}), 404
 @app.route('/sound/<path:filename>')
 def download_file(filename):
     return send_from_directory('./static/sound', filename)

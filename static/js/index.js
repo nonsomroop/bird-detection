@@ -61,16 +61,8 @@ window.onload = function () {
 
   const playSoundButton = document.getElementById("playSoundButton");
   if (playSoundButton) {
-    // playSoundButton.addEventListener("click", function () {
-    //   updateCounts()
-    //   const audio = new Audio("../sound/test_sound.aac");
-    //   audio.volume = document.getElementById("myRange").value / 100;
-    //   audio.play();
-    // });
     playSoundButton.addEventListener("click", function () {
       updateCounts();
-
-      // Send a request to the server to play the sound
       fetch("/play_sound")
         .then(response => response.json())
         .then(data => {
@@ -92,15 +84,15 @@ function updateCounts() {
       document.getElementById('totalBirds').innerText = data.total;
       document.getElementById('flyingBirds').innerText = data.flying;
       document.getElementById('standingBirds').innerText = data.standing;
-      //if (data.standing != 0) {
-        //console.log("Yess")
-        //fetch("/play_sound")
-         // .then(response => response.json())
-        //  .then(data => {
-         //   if (data.message) {
-       //       console.log(data.message);  
-     //       }
-   //       })
+    //   if (data.standing != 0) {
+    //     console.log("Yess")
+    //     fetch("/play_sound")
+    //      .then(response => response.json())
+    //      .then(data => {
+    //        if (data.message) {
+    //          console.log(data.message);  
+    //        }
+    //      })
     //      .catch(error => {
     //        console.error("Error playing sound:", error);
     //      });

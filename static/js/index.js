@@ -92,19 +92,19 @@ function updateCounts() {
       document.getElementById('totalBirds').innerText = data.total;
       document.getElementById('flyingBirds').innerText = data.flying;
       document.getElementById('standingBirds').innerText = data.standing;
-      if (data.standing != 0) {
-        console.log("Yess")
-        fetch("/play_sound")
-          .then(response => response.json())
-          .then(data => {
-            if (data.message) {
-              console.log(data.message);  
-            }
-          })
-          .catch(error => {
-            console.error("Error playing sound:", error);
-          });
-      }
+      //if (data.standing != 0) {
+        //console.log("Yess")
+        //fetch("/play_sound")
+         // .then(response => response.json())
+        //  .then(data => {
+         //   if (data.message) {
+       //       console.log(data.message);  
+     //       }
+   //       })
+    //      .catch(error => {
+    //        console.error("Error playing sound:", error);
+    //      });
+    //  }
     })
     .catch(err => console.error('Error fetching counts:', err));
 }

@@ -50,7 +50,7 @@ def process_frame(frame):
     bird_count = 0
     flying_count = 0
     standing_count = 0
-    conf = 0.5
+    conf = 0.2
         
     bird_standing_detected = False
     
@@ -66,7 +66,6 @@ def process_frame(frame):
                     
     if bird_standing_detected:
         print("====== 1 =======")
-
         # If it's the first time a bird is standing, start the timer
         if standing_start_time is None:
             standing_start_time = time.time()
@@ -110,12 +109,12 @@ def generate():
         yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n')
 def play_sound_flask():
     # return "Audio playing"
-    sound_path = "./static/sound/hawksound.wav"
+    sound_path = "./static/sound/test_sound.wav"
     
     # Ensure the file exists before trying to play it
     if os.path.exists(sound_path):
         pygame.mixer.music.load(sound_path)
-        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.set_volume(0.1)
         pygame.mixer.music.play()
         
         # Wait for the sound to finish playing
@@ -138,11 +137,11 @@ def video_feed():
 def play_sound():
     # return "Audio playing"
     # sound_path = os.path.join('static', 'sound', 'test_sound.aac')
-    sound_path = "./static/sound/falcon.wav"
+    sound_path = "./static/sound/test_sound.wav"
     # Ensure the file exists before trying to play it
     if os.path.exists(sound_path):
         pygame.mixer.music.load(sound_path)
-        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.set_volume(0.1)
         pygame.mixer.music.play()
 
         # Wait for the sound to finish playing
@@ -169,3 +168,4 @@ def get_counts():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, threaded=True)
+

@@ -25,7 +25,7 @@ state = {
     "volume": 50,
 }
 
-conf_threshold_value = 0.7  # Set confidence threshold to 70%
+conf_threshold_value = 0.5  # Set confidence threshold to 70%
 bird_count = 0
 flying_count = 0
 standing_count = 0
@@ -33,7 +33,7 @@ standing_count = 0
 standing_start_time = None
 
 
-def process_frame(model, frame, conf=0.7):
+def process_frame(model, frame, conf=0.5):
     # Pass the confidence threshold of 0.7 to filter out predictions below 70%
     results = model(frame, conf=conf)
 
@@ -80,7 +80,7 @@ def process_frame(model, frame, conf=0.7):
 
     return annotated_frame
 
-def generate_frames(conf_threshold=0.7):
+def generate_frames(conf_threshold=0.5):
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print("Error: Could not open video device.")
@@ -186,7 +186,7 @@ def update_state():
 def set_confidence():
     global conf_threshold_value
     data = request.json
-    conf_threshold_value = data.get('conf_threshold', 0.7)
+    conf_threshold_value = data.get('conf_threshold', 0.5)
     return jsonify({"message": "Confidence threshold updated", "confidence_threshold": conf_threshold_value})
 
 @app.route('/get_counts', methods=['GET'])

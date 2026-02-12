@@ -1,224 +1,242 @@
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
-@font-face {
-    font-family: Montserrat;
-    src: url(../fonts/Montserrat-Bold.ttf);
-}
-@font-face {
-    font-family: Lato;
-    src: url(../fonts/Lato-Regular.ttf);
-}
-body {
-    background-color: #3a668c;
-    width: 100vw;
-    height: 100vh;
-}
-h1 {
-    font-family: "Montserrat", Helvetica, sans-serif;
-    color: #fef5da;
-}
-h2 {
-    font-family: "Montserrat", Helvetica, sans-serif;
-    color: #fef5da;
-}
-h3 {
-    font-family: "Montserrat", Helvetica, sans-serif;
-    color: #fef5da;
-}
-p {
-    font-family: "Lato", Helvetica, sans-serif;
-}
-h1, h3 {
-    text-align: center;
-}
-.content {
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-}
-.container {
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    height: 85vh;
-}
-.title {
-    height: 15%;
-    margin-top: 20px;
-    text-align: center;
-    align-content: center;
-}
-.result {
-    display: flex;
-    flex-direction: column;
-    width: 60%;
-}
-.config {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 30%;
-}
-.volume {
-    text-align: center;
-}
-.video_feed{
-    height: 75%;
-    width: 100%;
-    background-color: #000000;
-    border-radius: 20px;
-    /* display: flex; */
-    overflow: hidden;
-}
-#video_feed {
-    width: 100%;
-    height: 100%;
-    object-fit: cover
-    /* justify-content: center;
-    align-items: center; */
-    /* height: 100%; */
-}
-#playSoundButton {
-    position: fixed;
-    top: 0;
-    right: 0;
-}
-.result-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-}
-.box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    min-height: 40px;
-    min-width: 80px;
-    margin-top: 10px;
-    background-color: #379C54;
-    color: white;
-    font-family: Montserrat;
-}
-.main {
-    min-height: 80px;
-    min-width: 160px;
-    background-color: #293A49;
-    color: #FEF5DA;
-    font-size: 25px;
-}
-.flying-standing {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    gap: 20px;
-}
-footer {
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fdb92e;
-    height: 15vh;
-    p{
-        margin-left: 20px;
-        font-size: large;
-        font-weight: 700;
-        color: #293A49;
-    }
-}
-.slidecontainer {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    gap: 10px;
-    margin-right: 20px;
-}
-.slider {
-    margin-top: 10px;
-    -webkit-appearance: none;
-    width: 100%;
-    height: 25px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-}
-.slider:hover {
-    opacity: 1;
-}
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background: #04AA6D;
-    cursor: pointer;
-}
-.slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #04AA6D;
-    cursor: pointer;
-}
-.component-title {
-  width: 100%;
-  position: absolute;
-  z-index: 999;
-  top: 30px;
-  left: 0;
-  padding: 0;
+  box-sizing: border-box;
   margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #888;
+  padding: 0;
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url(../fonts/Montserrat-Bold.ttf);
+}
+
+@font-face {
+  font-family: Lato;
+  src: url(../fonts/Lato-Regular.ttf);
+}
+
+body {
+  background-color: #3a668c;
+  height: 100vh;
+  width: 100vw;
+}
+
+h1,
+h2,
+h3 {
+  color: #fef5da;
+  font-family: "Montserrat", Helvetica, sans-serif;
+}
+
+h1,
+h3 {
   text-align: center;
 }
-.togglebox {
-  width: 51px;
-  height: 31px;
-  position: relative;
+
+p {
+  font-family: "Lato", Helvetica, sans-serif;
+}
+
+.content {
   display: flex;
   justify-content: center;
+  width: 100vw;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 85vh;
+  justify-content: center;
+}
+
+.title {
+  align-content: center;
+  height: 15%;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.config {
   align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30%;
+}
+
+.volume {
+  text-align: center;
+}
+
+.video_feed {
+  background-color: #000000;
+  border-radius: 20px;
+  height: 75%;
+  overflow: hidden;
+  width: 100%;
+}
+
+#video_feed {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+#playSoundButton {
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+.result-box {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.box {
+  align-items: center;
+  background-color: #379c54;
+  border-radius: 5px;
+  color: #ffffff;
+  display: flex;
+  font-family: Montserrat;
+  justify-content: center;
+  margin-top: 10px;
+  min-height: 40px;
+  min-width: 80px;
+}
+
+.main {
+  background-color: #293a49;
+  color: #fef5da;
+  font-size: 25px;
+  min-height: 80px;
+  min-width: 160px;
+}
+
+.flying-standing {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+}
+
+footer {
+  align-items: center;
+  background-color: #fdb92e;
+  display: flex;
+  height: 15vh;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+footer p {
+  color: #293a49;
+  font-size: large;
+  font-weight: 700;
+  margin-left: 20px;
+}
+
+.slidecontainer {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+  margin-right: 20px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  background: #d3d3d3;
+  height: 25px;
+  margin-top: 10px;
+  opacity: 0.7;
+  outline: none;
+  transition: opacity 0.2s;
+  width: 100%;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #04aa6d;
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+}
+
+.slider::-moz-range-thumb {
+  background: #04aa6d;
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+}
+
+.component-title {
+  color: #888;
+  font-size: 1rem;
+  font-weight: 700;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  text-align: center;
+  top: 30px;
+  width: 100%;
+  z-index: 999;
+}
+
+.togglebox {
+  align-items: center;
+  display: flex;
+  height: 31px;
+  justify-content: center;
+  position: relative;
+  width: 51px;
 }
 
 .checkbox {
-  opacity: 0;
-  width: 0;
   height: 0;
+  opacity: 0;
   position: absolute;
+  width: 0;
 }
 
 .switch {
-  width: 100%;
-  height: 100%;
   background-color: #e9e9eb;
   border-radius: 16px;
-  transition: background-color 0.2s ease-out;
   cursor: pointer;
+  height: 100%;
+  transition: background-color 0.2s ease-out;
+  width: 100%;
 }
 
 .toggle-handle {
-  width: 27px;
-  height: 27px;
-  position: absolute;
-  left: 2px;
-  top: 2px;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 50%;
-  transition: all 0.2s ease-out;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06);
+  height: 27px;
+  left: 2px;
+  position: absolute;
+  top: 2px;
+  transition: all 0.2s ease-out;
+  width: 27px;
 }
 
 .checkbox:checked + .switch {
-  background-color: #34C759;
+  background-color: #34c759;
 }
 
 .checkbox:checked + .switch .toggle-handle {

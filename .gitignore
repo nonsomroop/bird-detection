@@ -3,3 +3,4 @@ yolov8n.pt
 *.pt
 runs/
 .env
+.DS_Store

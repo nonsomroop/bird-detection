@@ -5,6 +5,17 @@ Real-time bird detection with a Flask UI, live video feed, and audio alerts.
 ## System Overview
 ![IoT Components](image/Bird%20Detection.png)
 
+## Demo
+![Demo](image/Demo.png)
+
+Demo video:
+```
+https://www.youtube.com/watch?v=NSW8jb8sL6I
+```
+
+## Confusion Matrix
+![Confusion Matrix](image/Confusion%20Matrix.png)
+
 ## IoT Components
 - Camera module for live video capture
 - Speaker for audio deterrent

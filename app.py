@@ -1,15 +1,16 @@
 # App.py is for running our best model in laptop/computer with the default camera (laptop camera)
 # This code requires .env for model path
 
-import cv2
-from ultralytics import YOLO
-from flask import Flask, jsonify, request, render_template, Response, send_from_directory
-from dotenv import load_dotenv
+import logging
 import os
-import logging  
-import pygame
-import time
 import random
+import time
+
+import cv2
+import pygame
+from dotenv import load_dotenv
+from flask import Flask, Response, jsonify, render_template, request, send_from_directory
+from ultralytics import YOLO
 
 pygame.mixer.init()
 
@@ -19,7 +20,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-model_path = os.getenv('MODEL_PATH', './yolov8n.pt')
+model_path = os.getenv('MODEL_PATH', './bird.pt')
 model = YOLO(model_path)
 
 state = {
@@ -27,7 +28,7 @@ state = {
     "volume": 50,
 }
 
-conf_threshold_value = 0.5  
+conf_threshold_value = 0.5
 bird_count = 0
 flying_count = 0
 standing_count = 0
@@ -36,9 +37,8 @@ standing_start_time = None
 
 
 def process_frame(model, frame, conf=0.5):
-    results = model(frame, conf=conf)
-
     global bird_count, flying_count, standing_count, standing_start_time  
+    results = model(frame, conf=conf)
     bird_count = 0
     flying_count = 0
     standing_count = 0
@@ -47,9 +47,9 @@ def process_frame(model, frame, conf=0.5):
 
     for result in results:
         for obj in result.boxes:
-            if obj.conf >= conf:  
+            if obj.conf >= conf:
                 bird_count += 1
-                if obj.cls == 1:  
+                if obj.cls == 1:
                     standing_count += 1
                     bird_standing_detected = True
 
@@ -57,7 +57,6 @@ def process_frame(model, frame, conf=0.5):
                     flying_count += 1
 
     if bird_standing_detected:
-
         if standing_start_time is None:
             standing_start_time = time.time()
             print("====== Time start =======")
@@ -74,6 +73,7 @@ def process_frame(model, frame, conf=0.5):
     annotated_frame = results[0].plot()
 
     return annotated_frame
+
 
 def generate_frames(conf_threshold=0.5):
     cap = cv2.VideoCapture(0)
@@ -96,27 +96,25 @@ def generate_frames(conf_threshold=0.5):
             cap.release()
             break
 
-#play_sound_flask() is for triggering audio automatically when bird is detected as standing for 5 seconds
-def play_sound_flask():
-    sound_path = "./static/sound/falcon.wav" 
-
-    if os.path.exists(sound_path):
-        pygame.mixer.music.load(sound_path)
-        
-        audio_duration = 60  
-        random_start = random.randint(0, audio_duration - 5)  
-        
-        pygame.mixer.music.set_volume(0.5)
-
-        pygame.mixer.music.play(start=random_start)
-        
-        print(f"Playing audio from {random_start} seconds for 5 seconds.")
-        
-        time.sleep(5)
-        
-        pygame.mixer.music.stop()
-    else:
+def play_audio_clip(sound_path, volume=0.5, clip_seconds=5, audio_duration=60):
+    if not os.path.exists(sound_path):
         print("Sound file not found")
+        return False
+
+    pygame.mixer.music.load(sound_path)
+    random_start = random.randint(0, max(audio_duration - clip_seconds, 0))
+    pygame.mixer.music.set_volume(volume)
+    pygame.mixer.music.play(start=random_start)
+
+    print(f"Playing audio from {random_start} seconds for {clip_seconds} seconds.")
+    time.sleep(clip_seconds)
+    pygame.mixer.music.stop()
+    return True
+
+
+# play_sound_flask() is for triggering audio automatically when bird is detected as standing for 5 seconds
+def play_sound_flask():
+    play_audio_clip("./static/sound/falcon.wav")
 
 @app.route('/')
 def index():
@@ -129,27 +127,9 @@ def video_feed():
 #play_sound() is for triggering audio manually for debug purposes
 @app.route('/play_sound', methods=['GET'])
 def play_sound():
-  
-    sound_path = "./static/sound/hawksound.wav"
-    if os.path.exists(sound_path):
-        pygame.mixer.music.load(sound_path)
-        
-        audio_duration = 60  
-        random_start = random.randint(0, audio_duration - 5)  
-        
-        pygame.mixer.music.set_volume(0.5)
-
-        pygame.mixer.music.play(start=random_start)
-        
-        print(f"Playing audio from {random_start} seconds for 5 seconds.")
-        
-        time.sleep(5)
-        
-        pygame.mixer.music.stop()
-
+    if play_audio_clip("./static/sound/hawksound.wav"):
         return jsonify({"message": "Sound played successfully"})
-    else:
-        return jsonify({"error": "Sound file not found"}), 404
+    return jsonify({"error": "Sound file not found"}), 404
 @app.route('/sound/<path:filename>')
 def download_file(filename):
     return send_from_directory('./static/sound', filename)
@@ -185,4 +165,3 @@ def get_counts():
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
-

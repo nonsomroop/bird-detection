@@ -1,17 +1,15 @@
 # App2.py is for running the lightweight model in the raspberry pi with raspberry pi camera
 # This code requires .env for model path
-import io
+import logging
+import os
 import time
+
 import cv2
-import numpy as np
-from flask import Flask, render_template, Response, jsonify, send_from_directory
+import pygame
+from dotenv import load_dotenv
+from flask import Flask, Response, jsonify, render_template, send_from_directory
 from picamera2 import Picamera2
 from ultralytics import YOLO
-from dotenv import load_dotenv
-import os
-import pygame
-import logging
-import time
 
 load_dotenv()
 
@@ -20,7 +18,7 @@ logging.getLogger("ultralytics").setLevel(logging.WARNING)
 
 app = Flask(__name__)
 
-model_path = os.getenv('MODEL_PATH', './yolov8n.pt')
+model_path = os.getenv('MODEL_PATH', './bird.pt')
 model = YOLO(model_path)
 
 picam2 = Picamera2()
